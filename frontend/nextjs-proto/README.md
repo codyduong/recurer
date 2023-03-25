@@ -1,3 +1,11 @@
+[Go to new web repository](../web)
+
+# Deprecated NextJS Prototype
+
+This package was formerly used to test out NextJS, but I didn't really need some of the features like the serverside/fetch was too confusing (in the time-span alloted for a hackathon)
+
+# NextJs
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

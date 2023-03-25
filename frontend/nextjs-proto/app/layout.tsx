@@ -1,5 +1,11 @@
-import StyledComponentsRegistry from '@app/lib/registry';
+import StyledComponentsRegistry from '@lib/registry';
+import { Atkinson_Hyperlegible } from 'next/font/google';
 import './globals.css';
+
+const ah = Atkinson_Hyperlegible({
+  weight: ['400', '700'],
+  subsets: ['latin'],
+});
 
 export const metadata = {
   title: 'Create Next App',
@@ -13,7 +19,7 @@ export default function RootLayout({
 }): JSX.Element {
   return (
     <html lang="en">
-      <body>
+      <body className={ah.className}>
         <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
       </body>
     </html>

@@ -11,12 +11,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@fontsource/atkinson-hyperlegible": "^4.5.11",
+    "@apollo/client": "^3.7.10",
     "@types/node": "18.15.9",
     "@types/react": "18.0.29",
     "@types/react-dom": "18.0.11",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
+    "formik": "^2.2.9",
+    "graphql": "^16.6.0",
     "next": "13.2.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -24,6 +26,7 @@
     "typescript": "5.0.2"
   },
   "devDependencies": {
+    "@types/styled-components": "^5.1.26",
     "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.2"
   }
 }
