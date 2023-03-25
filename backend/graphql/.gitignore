@@ -1,0 +1,10 @@
+node_modules/
+dist/
+src/generated/
+*.env*
+*.db
+!.env-EXAMPLE
+.firebase
+firebase-debug.log*
+ui-debug.log*
+stats.json

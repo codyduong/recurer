@@ -1,0 +1,23 @@
+{
+  "name": "recur-project",
+  "author": "Cody Duong <contact@codyduong.dev> (https://codyduong.dev/)",
+  "private": true,
+  "scripts": {
+    "ci": "yarn install --frozen-lockfile",
+    "changeset": "changeset"
+  },
+  "bugs": {
+    "url": "https://github.com/codyduong/recur/issues"
+  },
+  "homepage": "https://github.com/codyduong/recur#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codyduong/recur.git"
+  },
+  "workspaces": {
+    "packages": [
+      "backend/graphql",
+      "frontend/web"
+    ]
+  }
+}
