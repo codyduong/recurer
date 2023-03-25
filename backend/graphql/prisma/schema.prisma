@@ -14,6 +14,7 @@ type UserRoles {
 model user {
   id       String    @id @default(auto()) @map("_id") @db.ObjectId
   email    String    @unique
+  emailVerified Boolean @default(false)
   password String
   roles    UserRoles
   tasks    task[]

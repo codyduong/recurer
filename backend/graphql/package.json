@@ -1,7 +1,7 @@
 {
-  "name": "graphql-auth",
-  "version": "0.3.0",
-  "description": "A component for React to cascade properties",
+  "name": "recur-graphql",
+  "version": "0.0.0",
+  "description": "graphql server for recur",
   "author": "Cody Duong <contact@codyduong.dev> (https://codyduong.dev/)",
   "private": true,
   "main": "dist/functions.js",

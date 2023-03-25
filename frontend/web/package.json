@@ -1,0 +1,29 @@
+{
+  "name": "recur-web",
+  "version": "0.0.0",
+  "description": "nextjs website for recur",
+  "author": "Cody Duong <contact@codyduong.dev> (https://codyduong.dev/)",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@fontsource/atkinson-hyperlegible": "^4.5.11",
+    "@types/node": "18.15.9",
+    "@types/react": "18.0.29",
+    "@types/react-dom": "18.0.11",
+    "eslint": "8.36.0",
+    "eslint-config-next": "13.2.4",
+    "next": "13.2.4",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "styled-components": "^5.3.9",
+    "typescript": "5.0.2"
+  },
+  "devDependencies": {
+    "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.2"
+  }
+}
