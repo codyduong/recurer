@@ -19,6 +19,13 @@ const ToggleWrapper = styled.button`
   span {
     padding-top: 2px;
   }
+
+  &:disabled {
+    color: #444444;
+    background-color: #9c9c9c;
+    /* border: solid ${({ theme }) => `${theme.spacing.px[12.5]} #111111`}; */
+    cursor: not-allowed;
+  }
 `;
 
 const ToggleLabel = styled.label`
@@ -42,6 +49,13 @@ const ToggleActual = styled.div`
     transition: border-color 225ms cubic-bezier(1, 0.2, 0, 0.4) 0s;
     border-color: #12a149;
   }
+
+  &.disabled {
+    border-color: #111111;
+    &.switch-on {
+      border-color: #053116;
+    }
+  }
 `;
 
 const ToggleCircle = styled.div`
@@ -57,6 +71,13 @@ const ToggleCircle = styled.div`
     transition: all 225ms cubic-bezier(1, 0.2, 0, 0.4) 0s;
     background-color: #12a149;
     transform: translateX(100%);
+  }
+
+  &.disabled {
+    border-color: #111111;
+    &.switch-on {
+      border-color: #053116;
+    }
   }
 `;
 
@@ -81,6 +102,7 @@ type ToggleProps = {
     | 'aria-label'
     | 'className'
   >;
+  disabled?: boolean;
 };
 
 const Toggle = ({
@@ -90,15 +112,18 @@ const Toggle = ({
   setChecked,
   className,
   buttonProps,
+  disabled,
 }: ToggleProps): JSX.Element => {
   const switchState = classnames({
     ['switch-off']: !checked,
     ['switch-on']: checked,
+    ['disabled']: disabled,
   });
 
   return (
     <ToggleWrapper
       {...buttonProps}
+      type="button"
       role="switch"
       aria-checked={checked}
       onClick={() => {
@@ -107,6 +132,7 @@ const Toggle = ({
       tabIndex={0}
       aria-label={!showLabel ? label : undefined}
       className={className}
+      disabled={disabled}
     >
       {showLabel && <ToggleLabel as="span">{label}</ToggleLabel>}
       <ToggleActual aria-hidden className={switchState}>

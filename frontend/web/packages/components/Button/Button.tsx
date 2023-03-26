@@ -14,15 +14,14 @@ const ButtonStyled = styled.button`
   flex-direction: row nowrap;
   justify-content: center;
   align-items: center;
-  padding: 16px;
   gap: 8px;
   border-radius: 16px;
   box-sizing: border-box;
 
   &.lg {
     height: 48px;
-    padding-top: 10px;
-    padding-bottom: 7px;
+    font-size: 22px;
+    padding: 10px 12px;
 
     & > svg {
       padding-bottom: 2px;
@@ -31,110 +30,42 @@ const ButtonStyled = styled.button`
 
   &.md {
     height: 42px;
+    font-size: 20px;
     border-radius: 14px;
-    padding-top: 7px;
-    padding-bottom: 4px;
+    padding: 8px 8px 4px;
     & > svg {
       padding-bottom: 3px;
     }
   }
 
   &.sm {
-    height: 36px;
-    border-radius: 12px;
-    padding-top: 7px;
-    padding-bottom: 4px;
+    height: 28px;
+    font-size: 14px;
+    border-radius: 8px;
+    padding: 6px 8px 4px 6px;
 
     & > svg {
-      padding-bottom: 4px;
+      padding-bottom: 2px;
     }
   }
 
   color: #fff;
   background-color: #12a149;
-  // TODO override this styling
-  /* &.primary {
-    background: ${({ theme }) => theme.color.base[300]};
-    color: ${({ theme }) => theme.color.text[100]};
-    &:hover,
-    &.hover {
-      background: ${({ theme }) => theme.color.base[100]};
-    }
-    &:focus-within {
-      background: ${({ theme }) => theme.color.base[100]};
-      outline: ${({ theme }) => theme.color.base[200]} 3px solid;
-    }
-    &:active,
-    &.active {
-      box-shadow: inset 2px 2px 4px 2px rgba(0, 0, 0, 0.5);
-    }
+
+  &.primary {
     &.destructive {
-      background: ${({ theme }) => theme.color.destructive[300]};
-      &:hover,
-      &.hover {
-        background: ${({ theme }) => theme.color.destructive[200]};
-      }
-    }
-    &.productive {
-      background: ${({ theme }) => theme.color.productive[300]};
-      &:hover,
-      &.hover {
-        background: ${({ theme }) => theme.color.productive[200]};
-      }
-    }
-    &&.disabled {
-      background: ${({ theme }) => theme.color.surface[350]};
-      color: ${({ theme }) => theme.color.text[400]};
-      cursor: not-allowed;
+      background: #a11212;
     }
   }
 
   &.secondary {
-    border: 3px solid ${({ theme }) => theme.color.text[300]};
-    color: ${({ theme }) => theme.color.text[300]};
-    &:hover,
-    &.hover {
-      color: ${({ theme }) => theme.color.text[400]};
-      border-color: ${({ theme }) => theme.color.text[400]};
-      background: ${({ theme }) =>
-    Color(theme.color.surface[350]).alpha(0.2).toString()};
-    }
-    &:focus-within {
-      background: ${({ theme }) =>
-    Color(theme.color.surface[350]).alpha(0.2).toString()};
-      border-color: ${({ theme }) => theme.color.text[400]};
-    }
-    &.destructive {
-      border: 3px solid ${({ theme }) => theme.color.destructive[200]};
-      color: ${({ theme }) => theme.color.destructive[200]};
-      &:hover,
-      &.hover {
-        background: ${({ theme }) =>
-    Color(theme.color.destructive[200]).alpha(0.2).toString()};
-      }
-    }
-    &.productive {
-      border: 3px solid ${({ theme }) => theme.color.productive[200]};
-      color: ${({ theme }) => theme.color.productive[200]};
-      &:hover,
-      &.hover {
-        background: ${({ theme }) =>
-    Color(theme.color.productive[200]).alpha(0.15).toString()};
-      }
-    }
-    &&.disabled {
-      background: ${({ theme }) => theme.color.surface[300]};
-      border: 3px solid ${({ theme }) => theme.color.text[300]};
-      color: ${({ theme }) => theme.color.text[300]};
-      cursor: not-allowed;
+    // similiar to link-text
+    color: unset;
+    background-color: unset;
+    &:hover {
+      background-color: #ceeeff;
     }
   }
-
-  && {
-    transition: all 225ms 125ms;
-    transition-property: background-color;
-    transition-delay: 50ms;
-  } */
 `;
 
 export const ButtonSize = {
@@ -247,6 +178,7 @@ export const Button = ({
       ref={buttonRef}
       className={className}
       disabled={disabled}
+      type="button"
       {...rest}
     >
       <Icon ref={iconRef} width={width} height={height} {...iconProps} />

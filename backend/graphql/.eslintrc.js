@@ -31,6 +31,7 @@ module.exports = {
             allowExpressions: true,
           },
         ],
+        '@typescript-eslint/no-non-null-assertion': 'off',
       },
     },
   ],

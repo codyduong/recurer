@@ -1,4 +1,4 @@
-export const WEBSITE_NAME = 'Recurii';
+export const WEBSITE_NAME = 'Recurer';
 
 const defaultPathToTitle = (path: string[], _?: unknown): string => {
   let prefix = path[path.length - 1] ?? '';

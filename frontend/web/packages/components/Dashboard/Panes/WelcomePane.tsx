@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 const WelcomePaneSection = styled(PaneSection)`
   background-color: #dfd4be;
+  box-shadow: 4px 4px 8px 0px rgba(221, 159, 24, 0.2);
 `;
 
 const WelcomePaneHeader = styled(PaneHeader)`
@@ -34,8 +35,8 @@ const WelcomePane = ({ username }: WelcomePaneProps): JSX.Element => {
         Welcome back {username ? username + '!' : <StyledSpinner />}
       </WelcomePaneHeader>
       <PaneSubtitle>
-        You&apos;ve completed 50% of your tasks for this week. You have
-        accumulated 192 points.
+        You&apos;ve completed <b>50%</b> of your tasks for this week. You have
+        accumulated <b>192</b> points.
       </PaneSubtitle>
     </WelcomePaneSection>
   );

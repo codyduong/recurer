@@ -8,9 +8,11 @@ A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `dat
 scalar DateTime
 
 type Mutation {
-  createTask(content: String!, title: String!): task!
+  createTask(content: String!, deadline: String, points: Int, title: String!): task!
   createUser(email: String!, name: String!, password: String!, roles: UserRolesArg): UserAuthPayload
+  deleteTask(id: String!): task!
   loginUser(email: String!, password: String!): UserAuthPayload
+  updateTask(content: String, deadline: String, id: String!, points: Int, pointsCompleted: Int, title: String): task!
 }
 
 type Query {
@@ -40,7 +42,9 @@ input UserRolesArg {
 type task {
   authorId: String!
   content: String!
+  deadline: DateTime!
   id: String!
+  points: Int!
   title: String!
 }
 

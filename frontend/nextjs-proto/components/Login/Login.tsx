@@ -53,7 +53,6 @@ const Login = (): JSX.Element => {
         <Formik
           initialValues={{ email: '' }}
           onSubmit={(values, { setSubmitting }) => {
-            setSubmitting(true);
             console.log(values);
             setSubmitting(false);
           }}

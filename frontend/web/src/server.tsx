@@ -85,7 +85,7 @@ export const renderApp = async (
 
   if (process.env.NODE_ENV === 'production') {
     graphqlLocation =
-      process.env.APOLLO_SERVER_PROD ?? 'https://recurii.tech/api/';
+      process.env.APOLLO_SERVER_PROD ?? 'https://recurer.tech/api/';
   }
 
   const cookies = new Cookies(req.headers.cookie);
@@ -151,7 +151,7 @@ export const renderApp = async (
         <meta name="theme-color" content="#000000" />
         <meta
           name="description"
-          content="recurii"
+          content="recurer"
         />
         <title>
           ${generateTitleTag(req.url, state)}

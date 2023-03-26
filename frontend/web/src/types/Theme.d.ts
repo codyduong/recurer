@@ -1,4 +1,3 @@
-import React from 'react';
 import { CSSProperties, DefaultTheme } from 'styled-components';
 
 export type ColorValue = NonNullable<CSSProperties['color']>;

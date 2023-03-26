@@ -3,5 +3,7 @@ query GetTasks {
     title
     content
     id
+    deadline
+    points
   }
 }

@@ -1,0 +1,5 @@
+mutation DeleteTask($id: String!) {
+  deleteTask(id: $id) {
+    id
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "name": "recurii-graphql",
+  "name": "recurer-graphql",
   "version": "0.0.0",
-  "description": "graphql server for recurii",
+  "description": "graphql server for recurer",
   "author": "Cody Duong <contact@codyduong.dev> (https://codyduong.dev/)",
   "private": true,
   "main": "dist/functions.js",

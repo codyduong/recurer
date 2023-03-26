@@ -1,0 +1,10 @@
+mutation UpdateTask($id: String!, $title: String, $content: String, $points: Int, $pointsCompleted: Int, $deadline: String) {
+  updateTask(id: $id, title: $title, content: $content, points: $points, pointsCompleted: $pointsCompleted, deadline: $deadline) {
+    authorId
+    deadline
+    content
+    id
+    points
+    title
+  }
+}

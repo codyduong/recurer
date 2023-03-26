@@ -14,7 +14,7 @@ const StyledSection = styled.section`
   height: 100%;
   border-radius: 1rem;
   background: #eee;
-  box-shadow: 4px 10px 17px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 8px 16px 0px rgba(0, 0, 0, 0.1);
 
   @media only screen and (min-width: ${breakpoints.sm}) {
     max-width: 600px;
@@ -70,7 +70,7 @@ const Login = (): JSX.Element => {
   return (
     <Main>
       <StyledSection>
-        <Title>Recurii</Title>
+        <Title>Recurer</Title>
         <Subtitle>
           Design your own workflows to maximize your chances of building habits
           and encourage productivity.
@@ -78,7 +78,6 @@ const Login = (): JSX.Element => {
         <Formik
           initialValues={{ email: '', password: '' }}
           onSubmit={async ({ email, password }, { setSubmitting }) => {
-            setSubmitting(true);
             const { data } = await login({
               variables: {
                 email: email,

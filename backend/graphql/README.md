@@ -1,4 +1,4 @@
-# recurii-graphql
+# recurer-graphql
 
 Bootstrapped from [`prisma-examples`](https://github.com/prisma/prisma-examples/tree/latest/typescript/graphql-auth) 
 

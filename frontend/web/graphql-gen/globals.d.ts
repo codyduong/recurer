@@ -15,6 +15,16 @@ declare module '*CreateTask.graphql' {
   export default CreateTaskDocument;
 }
 
+declare module '*UpdateTask.graphql' {
+  import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+  import { UpdateTaskMutation, UpdateTaskMutationVariables } from 'graphql-gen/types';
+  const UpdateTaskDocument: DocumentNode<
+    UpdateTaskMutation,
+    UpdateTaskMutationVariables
+  >;
+  export default UpdateTaskDocument;
+}
+
 declare module '*GetTasks.graphql' {
   import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
   import { GetTasksQuery, GetTasksQueryVariables } from 'graphql-gen/types';

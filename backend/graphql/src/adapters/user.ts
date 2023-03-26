@@ -4,7 +4,7 @@ import { Context } from '../context';
 import { sign } from 'jsonwebtoken';
 import { compare, hash } from 'bcryptjs';
 import { APP_SECRET, getUserFromHeaders } from '../utils';
-import { isAdmin } from '../rules';
+import { isAdmin, rules } from '../rules';
 
 export default Adapter<'user'>({
   schema: [
@@ -95,10 +95,10 @@ export default Adapter<'user'>({
           };
           const user = await context.prisma.user.create({
             data: {
-              email: email,
+              email: email || null!,
               password: hashedPassword,
               roles: roles ?? defaultRoles,
-              name: name,
+              name: name || null!,
             },
           });
           return {
@@ -136,6 +136,8 @@ export default Adapter<'user'>({
   },
   permissions: {
     Query: {},
-    Mutation: {},
+    Mutation: {
+      createUser: rules.admin,
+    },
   },
 });
