@@ -1,0 +1,10 @@
+query GetDashboard {
+  currentUser {
+    email
+    id
+    name
+    roles {
+      admin 
+    }
+  }
+}

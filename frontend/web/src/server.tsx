@@ -33,6 +33,7 @@ import {
 import { CookiesProvider, Cookies } from 'react-cookie';
 import fetch from 'cross-fetch';
 import * as dotenv from 'dotenv';
+import { setContext } from '@apollo/client/link/context';
 dotenv.config({ debug: true, override: false });
 
 let assets: unknown;
@@ -87,6 +88,8 @@ export const renderApp = async (
       process.env.APOLLO_SERVER_PROD ?? 'https://recurii.tech/api/';
   }
 
+  const cookies = new Cookies(req.headers.cookie);
+
   const client = new ApolloClient({
     ssrMode: true,
     link: createHttpLink({
@@ -103,7 +106,7 @@ export const renderApp = async (
   const AppWithContexts = (
     <HttpContextProvider context={context}>
       <ApolloProvider client={client}>
-        <CookiesProvider cookies={new Cookies(req.headers.cookie)}>
+        <CookiesProvider cookies={cookies}>
           <StaticRouter location={req.url}>
             {/* @ts-expect-error: todo */}
             <ChunkExtractorManager extractor={extractor}>

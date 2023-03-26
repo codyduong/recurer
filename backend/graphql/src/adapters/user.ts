@@ -3,7 +3,7 @@ import { Adapter } from '../adapter';
 import { Context } from '../context';
 import { sign } from 'jsonwebtoken';
 import { compare, hash } from 'bcryptjs';
-import { APP_SECRET } from '../utils';
+import { APP_SECRET, getUserFromHeaders } from '../utils';
 import { isAdmin } from '../rules';
 
 export default Adapter<'user'>({
@@ -25,6 +25,7 @@ export default Adapter<'user'>({
       definition(t) {
         t.nonNull.string('id');
         t.nonNull.string('email');
+        t.nonNull.string('name');
         t.nonNull.field('roles', { type: 'UserRoles' });
       },
     }),
@@ -52,6 +53,19 @@ export default Adapter<'user'>({
           return user;
         },
       });
+      t.field('currentUser', {
+        type: 'user',
+        args: {},
+        resolve: async (_parent, _args, context: Context) => {
+          const user = await getUserFromHeaders(context);
+          const isActualUser = await context.prisma.user.findUnique({
+            where: {
+              id: user.id,
+            },
+          });
+          return isActualUser;
+        },
+      });
     },
     Mutation: (t) => {
       t.field('createUser', {
@@ -59,13 +73,14 @@ export default Adapter<'user'>({
         args: {
           email: nonNull(stringArg()),
           password: nonNull(stringArg()),
+          name: nonNull(stringArg()),
           roles: arg({
             type: 'UserRolesArg',
           }),
         },
         resolve: async (
           _parent,
-          { email, password, roles },
+          { email, password, name, roles },
           context: Context,
         ) => {
           const hashedPassword = await hash(password, 10);
@@ -83,6 +98,7 @@ export default Adapter<'user'>({
               email: email,
               password: hashedPassword,
               roles: roles ?? defaultRoles,
+              name: name,
             },
           });
           return {

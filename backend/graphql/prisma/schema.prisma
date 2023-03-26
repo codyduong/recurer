@@ -16,6 +16,7 @@ model user {
   email    String    @unique
   emailVerified Boolean @default(false)
   password String
+  name     String
   roles    UserRoles
   tasks    task[]
 }
@@ -25,4 +26,5 @@ model task {
   author   user   @relation(fields: [authorId], references: [id])
   authorId String @db.ObjectId
   content  String
+  title    String
 }

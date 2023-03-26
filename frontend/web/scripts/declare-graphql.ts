@@ -25,6 +25,9 @@ export const plugin = (
       }
 
       const thisOperation = doc.document.definitions[0];
+      if (!thisOperation) {
+        return undefined;
+      }
       // @ts-ignore;
       let operationType: string = thisOperation.operation;
       operationType =

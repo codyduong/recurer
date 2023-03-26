@@ -5,6 +5,36 @@
  * DO NOT EDIT MANUALLY
  */
     
+declare module '*CreateTask.graphql' {
+  import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+  import { CreateTaskMutation, CreateTaskMutationVariables } from 'graphql-gen/types';
+  const CreateTaskDocument: DocumentNode<
+    CreateTaskMutation,
+    CreateTaskMutationVariables
+  >;
+  export default CreateTaskDocument;
+}
+
+declare module '*GetTasks.graphql' {
+  import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+  import { GetTasksQuery, GetTasksQueryVariables } from 'graphql-gen/types';
+  const GetTasksDocument: DocumentNode<
+    GetTasksQuery,
+    GetTasksQueryVariables
+  >;
+  export default GetTasksDocument;
+}
+
+declare module '*GetDashboard.graphql' {
+  import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+  import { GetDashboardQuery, GetDashboardQueryVariables } from 'graphql-gen/types';
+  const GetDashboardDocument: DocumentNode<
+    GetDashboardQuery,
+    GetDashboardQueryVariables
+  >;
+  export default GetDashboardDocument;
+}
+
 declare module '*LoginUser.graphql' {
   import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
   import { LoginUserMutation, LoginUserMutationVariables } from 'graphql-gen/types';

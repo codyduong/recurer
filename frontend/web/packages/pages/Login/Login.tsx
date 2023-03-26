@@ -1,35 +1,32 @@
-'use client';
-
 import { useMutation } from '@apollo/client';
 import { Field, Form, Formik } from 'formik';
 import { useAuth } from 'packages/auth/AuthContext';
+import breakpoints from 'packages/breakpoints';
+import { Main } from 'packages/pages/Page';
 import styled from 'styled-components';
 import LOGIN_USER from './LoginUser.graphql';
-
-const LoginWrapper = styled.div`
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-`;
 
 const StyledSection = styled.section`
   display: flex;
   flex-flow: column nowrap;
-  max-width: 600px;
+  justify-content: center;
   padding: 64px;
+  height: 100%;
   border-radius: 1rem;
   background: #eee;
   box-shadow: 4px 10px 17px 0px rgba(0, 0, 0, 0.1);
+
+  @media only screen and (min-width: ${breakpoints.sm}) {
+    max-width: 600px;
+    height: unset;
+  }
 `;
 
 const StyledForm = styled(Form)`
   display: flex;
   flex-flow: column nowrap;
   gap: 0.5rem;
-  margin: 2rem 0;
+  margin-top: 2rem;
   font-size: 1.5rem;
 
   & > label {
@@ -63,15 +60,15 @@ const LoginButton = styled.button`
 `;
 
 const DemoButton = styled(LoginButton)`
-  background-color: #a11212;
+  background-color: #1274a1;
 `;
 
 const Login = (): JSX.Element => {
   const [login] = useMutation(LOGIN_USER);
-  const { setToken } = useAuth();
+  const { setToken, setUser } = useAuth();
 
   return (
-    <LoginWrapper>
+    <Main>
       <StyledSection>
         <Title>Recurii</Title>
         <Subtitle>
@@ -91,6 +88,7 @@ const Login = (): JSX.Element => {
             if (data) {
               console.log(data);
               setToken(data.loginUser?.token ?? null);
+              setUser(data.loginUser?.user ?? null);
             }
             setSubmitting(false);
           }}
@@ -114,7 +112,7 @@ const Login = (): JSX.Element => {
           </StyledForm>
         </Formik>
       </StyledSection>
-    </LoginWrapper>
+    </Main>
   );
 };
 

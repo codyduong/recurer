@@ -11,12 +11,13 @@ export default Adapter<'task'>({
         t.nonNull.string('id');
         t.nonNull.string('authorId');
         t.nonNull.string('content');
+        t.nonNull.string('title');
       },
     }),
   ],
   resolver: {
     Query: (t) => {
-      t.nonNull.list.field('tasks', {
+      t.nonNull.list.nonNull.field('tasks', {
         type: 'task',
         args: undefined,
         resolve: async (_parent, _args, context: Context) => {
@@ -34,12 +35,14 @@ export default Adapter<'task'>({
       t.nonNull.field('createTask', {
         type: 'task',
         args: {
+          title: nonNull(stringArg()),
           content: nonNull(stringArg()),
         },
-        resolve: async (_parent, { content }, context: Context) => {
+        resolve: async (_parent, { title, content }, context: Context) => {
           const user = await getUserFromHeaders(context);
           const task = await context.prisma.task.create({
             data: {
+              title,
               authorId: user.id,
               content,
             },

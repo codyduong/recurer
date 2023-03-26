@@ -4,9 +4,10 @@ import { useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { AuthContextProvider } from 'packages/auth/AuthContext';
 import loadable from 'packages/SpinkitLoadable';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import Redirect from 'packages/http/Redirect';
 import NotFound from 'packages/components/NotFound';
+import theme from 'packages/mono-app/theme';
 
 const Login = loadable(
   () => import(/* webpackPrefetch: true */ 'packages/pages/Login')
@@ -37,20 +38,22 @@ const Titler = (): null => {
 function App(): JSX.Element {
   return (
     <MonoAppDiv>
-      <AuthContextProvider>
-        <Titler />
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route element={<UnprotectedRoute />}>
-            <Route path="/login" element={<Login />} />
-          </Route>
-          <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Route>
-          <Route path="/404" element={<NotFound />} />
-          <Route path="*" element={<Redirect to="/404" />} />
-        </Routes>
-      </AuthContextProvider>
+      <ThemeProvider theme={theme}>
+        <AuthContextProvider>
+          <Titler />
+          <Routes>
+            <Route path="/" element={<Redirect to="/login" />} />
+            <Route element={<UnprotectedRoute />}>
+              <Route path="/login" element={<Login />} />
+            </Route>
+            <Route element={<ProtectedRoute />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<Redirect to="/404" />} />
+          </Routes>
+        </AuthContextProvider>
+      </ThemeProvider>
     </MonoAppDiv>
   );
 }

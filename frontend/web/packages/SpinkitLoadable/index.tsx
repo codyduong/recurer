@@ -4,6 +4,7 @@ import baseLoadable, {
   OptionsWithResolver,
 } from '@loadable/component';
 import styled from 'styled-components';
+import classname from 'classnames';
 
 const SpinnerWrapper = styled.div`
   width: 100%;
@@ -15,6 +16,16 @@ const SpinnerWrapper = styled.div`
 
 interface SpinnerProps {
   className?: string;
+}
+
+export function SpinnerFlow({ className }: SpinnerProps): JSX.Element {
+  return (
+    <div className={classname('sk-flow', className)}>
+      <div className="sk-flow-dot"></div>
+      <div className="sk-flow-dot"></div>
+      <div className="sk-flow-dot"></div>
+    </div>
+  );
 }
 
 export function Spinner({ className }: SpinnerProps): JSX.Element {

@@ -3,6 +3,8 @@ mutation LoginUser($email: String!, $password: String!) {
     token
     user {
       email
+      id
+      name
     }
   }
 }

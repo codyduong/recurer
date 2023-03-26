@@ -27,7 +27,7 @@ export const getUserFromHeaders = async (context: Context): Promise<user> => {
     }
   }
 
-  context.res.status(401).send('No Authorization header was found');
+  // context.res.status(401).send('No Authorization header was found');
   throw new Error('No Authorization header was found');
 };
 
