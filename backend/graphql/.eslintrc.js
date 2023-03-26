@@ -1,14 +1,6 @@
 module.exports = {
   plugins: ['prettier'],
   extends: ['codyduong'],
-  rules: {
-    'prettier/prettier': [
-      'error',
-      {
-        semi: true,
-      },
-    ],
-  },
   overrides: [
     {
       files: ['*.ts', '*.mts', '*.cts', '*.js', '*.mjs', '*.cjs'],

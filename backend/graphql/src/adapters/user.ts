@@ -83,7 +83,7 @@ export default Adapter<'user'>({
         resolve: async (
           _parent,
           { email, password, name, roles },
-          context: Context,
+          context: Context
         ) => {
           const hashedPassword = await hash(password, 10);
           // only another admin can set roles by default

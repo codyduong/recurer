@@ -13,10 +13,8 @@
     "type": "git",
     "url": "git+https://github.com/codyduong/recur.git"
   },
-  "workspaces": {
-    "packages": [
-      "backend/graphql",
-      "frontend/web"
-    ]
-  }
+  "workspaces": [
+    "backend/graphql",
+    "frontend/web"
+  ]
 }

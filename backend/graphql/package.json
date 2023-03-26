@@ -8,23 +8,29 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon ./src/server.ts",
     "start": "node dist/server",
-    "clean": "rm -rf dist",
+    "clean": "./scripts/clean.sh",
     "build": "yarn -s run clean && npm -s run generate && tsc",
     "generate": "yarn -s run generate:prisma && npm -s run generate:nexus",
     "generate:prisma": "prisma generate",
-    "generate:nexus": "ts-node --transpile-only src/schema"
+    "generate:nexus": "ts-node --transpile-only src/schema",
+    "cpf": "copyfiles -V -f src/generated/nexus.ts dist/generated",
+    "deploy": "firebase deploy"
   },
   "prettier": {
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "all"
+    "tabWidth": 2,
+    "useTabs": false,
+    "quotes": true,
+    "endOfLine": "auto"
   },
   "dependencies": {
     "@apollo/server": "^4.5.0",
-    "@fontsource/atkinson-hyperlegible": "^4.5.11",
     "@prisma/client": "4.11.0",
     "bcryptjs": "2.4.3",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "firebase-admin": "^11.5.0",
+    "firebase-functions": "^4.2.1",
     "glob": "^9.3.2",
     "graphql": "^16.6.0",
     "graphql-middleware": "^6.1.33",
@@ -38,6 +44,9 @@
     "@types/jsonwebtoken": "9.0.1",
     "@types/node": "^18.15.9",
     "@types/webpack-env": "^1.18.0",
+    "@typescript-eslint/eslint-plugin": "^5.49.0",
+    "@typescript-eslint/parser": "^5.49.0",
+    "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
     "eslint": "^8.36.0",
     "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.2",

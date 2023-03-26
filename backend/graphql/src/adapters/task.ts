@@ -69,7 +69,7 @@ export default Adapter<'task'>({
             dateEnd,
             complete,
           },
-          context: Context,
+          context: Context
         ) => {
           const user = await getUserFromHeaders(context);
           const task = await context.prisma.task.create({
@@ -112,7 +112,7 @@ export default Adapter<'task'>({
             dateEnd,
             complete,
           },
-          context: Context,
+          context: Context
         ) => {
           const task = await context.prisma.task.update({
             data: {

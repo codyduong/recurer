@@ -85,7 +85,7 @@ export const renderApp = async (
 
   if (process.env.NODE_ENV === 'production') {
     graphqlLocation =
-      process.env.APOLLO_SERVER_PROD ?? 'https://recurer.tech/api/';
+      process.env.APOLLO_SERVER_PROD ?? 'https://recur-10879.web.app/api/';
   }
 
   const cookies = new Cookies(req.headers.cookie);

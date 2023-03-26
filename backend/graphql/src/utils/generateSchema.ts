@@ -22,7 +22,7 @@ const generateSchema = async (): Promise<{
   const js = __filename.includes('.js') ? true : false;
   const files = await glob(
     `${js ? 'dist' : 'src'}/adapters/**/*${js ? '.js' : '.ts'}`,
-    { nodir: true },
+    { nodir: true }
   );
   await Promise.all(
     files.map(async (file: string) => {
@@ -44,7 +44,7 @@ const generateSchema = async (): Promise<{
       } catch (e) {
         console.warn(e);
       }
-    }),
+    })
   );
 
   return {
