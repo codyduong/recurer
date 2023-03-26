@@ -1,5 +1,19 @@
-mutation CreateTask($content: String!, $title: String!, $points: Int) {
-  createTask(content: $content, title: $title, points: $points) {
+mutation CreateTask(
+  $content: String!
+  $title: String!
+  $points: Int
+  $pointsCompleted: Int
+  $dateEnd: String!
+  $complete: Boolean
+) {
+  createTask(
+    content: $content
+    title: $title
+    points: $points
+    pointsCompleted: $pointsCompleted
+    dateEnd: $dateEnd
+    complete: $complete
+  ) {
     authorId
     content
     id

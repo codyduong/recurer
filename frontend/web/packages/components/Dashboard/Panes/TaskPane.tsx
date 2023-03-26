@@ -1,34 +1,30 @@
 import { PaneSection, PaneHeader, PaneSubtitle } from './Pane';
 import styled from 'styled-components';
-import { useQuery } from '@apollo/client';
-import GET_TASKS from './GetTasks.graphql';
 import ButtonLink from 'packages/components/ButtonLink';
-import { useEffect, useState } from 'react';
-import loadable from '@loadable/component';
 import { Spinner } from 'packages/SpinkitLoadable';
 import { GetTasksQuery } from 'graphql-gen/types';
 import Button from 'packages/components/Button';
 import EditIcon from '@mui/icons-material/Edit';
-
-const CreateTaskModal = loadable(
-  () =>
-    import(
-      /* webpackPrefetch: true */ 'packages/components/Dashboard/CreateTaskModal'
-    ),
-  { ssr: false }
-);
+import dayjs from 'dayjs';
 
 const TaskPaneSection = styled(PaneSection)`
-  background-color: #bed2df;
+  background-color: #d2e7f5;
   box-shadow: 4px 4px 8px 0px rgba(24, 126, 221, 0.2);
+  --pane-primary-text-color: #187edd;
+`;
+
+const TaskPaneCompleteSection = styled(TaskPaneSection)`
+  background-color: #d3f5d2;
+  box-shadow: 4px 4px 8px 0px rgba(24, 221, 41, 0.2);
+  --pane-primary-text-color: #18dd29;
 `;
 
 const TaskPaneHeader = styled(PaneHeader)`
-  color: #187edd;
+  color: var(--pane-primary-text-color);
 `;
 
 const TaskButtonLink = styled(ButtonLink)`
-  color: #187edd;
+  color: var(--pane-primary-text-color);
 `;
 
 const TasksWrapper = styled.div`
@@ -50,22 +46,36 @@ const TaskPane = styled.div`
   }
 `;
 
+const TaskColumn = styled.div`
+  display: flex;
+  flex-flow: column nowrap;
+  &:last-child {
+    align-items: flex-end;
+    text-align: right;
+  }
+  &:first-child {
+    align-items: flex-start;
+    text-align: left;
+  }
+`;
+
 const TaskRow = styled.div`
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+  gap: 16px;
   & > * {
+    display: flex;
+    flex: 0 1 50%;
     max-width: 50%;
   }
 `;
 
-const TaskRowFinal = styled(TaskRow)`
-  padding: 4px 0;
-`;
-
-const TaskColumn = styled.div`
+const TaskRowFinal = styled.div`
   display: flex;
-  flex-flow: column nowrap;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  padding: 4px 0;
 `;
 
 const TaskDate = styled.span`
@@ -74,13 +84,23 @@ const TaskDate = styled.span`
 
 const TaskPoints = styled.span`
   font-size: 1rem;
+  padding-right: 8px;
 `;
 
 const TaskHeader = styled.h3`
   font-size: 24px;
 `;
 
-const TaskProgress = styled.div``;
+const TaskProgress = styled.div<{ percent: number }>`
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.103);
+  background: ${({ percent }) =>
+    `linear-gradient(90deg, rgba(255,255,255,0.25) ${
+      100 - percent
+    }%, rgba(98, 158, 214, 1) ${100 - percent}%, rgba(98, 158, 214, 1) 100%);`};
+  border-radius: 8px;
+  padding-right: 8px;
+`;
 
 const TaskSubtitle = styled.span`
   font-size: 1rem;
@@ -93,31 +113,37 @@ interface TaskProps {
   setTaskToUpdate: React.Dispatch<
     React.SetStateAction<GetTasksQuery['tasks'][number] | undefined>
   >;
+  progressBar?: boolean;
 }
 
 const Task = ({
   task,
   setTaskModalOpen,
   setTaskToUpdate,
+  progressBar = false,
 }: TaskProps): JSX.Element => {
-  const handleEditingTask = () => {
+  const handleEditingTask = (): void => {
     setTaskToUpdate(task);
     setTaskModalOpen(true);
   };
+
+  const percent = (task.pointsCompleted * 100) / task.points;
 
   return (
     <TaskPane key={task.id}>
       <TaskRow>
         <TaskColumn>
-          <TaskDate>{task.deadline}</TaskDate>
+          <TaskDate>{dayjs(task.dateEnd).format('llll')}</TaskDate>
           <TaskHeader>{task.title}</TaskHeader>
         </TaskColumn>
-        <TaskColumn>
-          <TaskPoints>
-            {task.points} / {task.points} points
-          </TaskPoints>
-          <TaskProgress>57%</TaskProgress>
-        </TaskColumn>
+        {progressBar && task.points > 0 && (
+          <TaskColumn>
+            <TaskPoints>
+              {task.pointsCompleted} / {task.points} points
+            </TaskPoints>
+            <TaskProgress percent={percent}>{percent.toFixed(2)}%</TaskProgress>
+          </TaskColumn>
+        )}
       </TaskRow>
       <TaskRow>
         <TaskSubtitle>{task.content}</TaskSubtitle>
@@ -139,66 +165,89 @@ const Task = ({
 };
 
 const StyledSpinner = styled(Spinner)`
-  --sk-color: #187edd;
+  --sk-color: var(--pane-primary-text-color);
 `;
 
 interface TaskPaneProps {
-  foo?: never;
+  tasks: GetTasksQuery['tasks'] | undefined;
+  tasksLoading: boolean;
+  setTaskModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setTaskToUpdate: React.Dispatch<
+    React.SetStateAction<GetTasksQuery['tasks'][number] | undefined>
+  >;
 }
 
-const TasksPane = (props: TaskPaneProps): JSX.Element => {
-  const { data, loading } = useQuery(GET_TASKS);
-  const [taskModalOpen, setTaskModalOpen] = useState(false);
-  const [taskToUpdate, setTaskToUpdate] =
-    useState<GetTasksQuery['tasks'][number]>();
-
-  const tasks = data?.tasks ?? [];
+const TasksPane = ({
+  tasks = [],
+  tasksLoading: loading,
+  setTaskModalOpen,
+  setTaskToUpdate,
+}: TaskPaneProps): JSX.Element => {
+  const todoTasks = tasks.filter((task) => !task.complete);
+  const doneTasks = tasks.filter((task) => task.complete);
 
   return (
-    <TaskPaneSection>
-      <TaskPaneHeader>To-do</TaskPaneHeader>
-      <CreateTaskModal
-        open={taskModalOpen}
-        onClose={() => {
-          setTaskModalOpen(false);
-        }}
-        taskToUpdate={taskToUpdate}
-      />
-      {loading ? (
-        <StyledSpinner />
-      ) : tasks.length === 0 ? (
-        <PaneSubtitle>
-          You&apos;ve completed all your tasks for today.{' '}
-          <TaskButtonLink
-            onClick={() => {
-              setTaskModalOpen(true);
-            }}
-          >
-            Create a new task?
-          </TaskButtonLink>
-        </PaneSubtitle>
-      ) : (
-        <>
-          <TasksWrapper>
-            {tasks.map((task) => (
-              <Task
-                key={task.id}
-                task={task}
-                setTaskModalOpen={setTaskModalOpen}
-                setTaskToUpdate={setTaskToUpdate}
-              />
-            ))}
-          </TasksWrapper>
-          <TaskButtonLink
-            onClick={() => {
-              setTaskModalOpen(true);
-            }}
-          >
-            Create a new task?
-          </TaskButtonLink>
-        </>
-      )}
-    </TaskPaneSection>
+    <>
+      <TaskPaneSection>
+        <TaskPaneHeader>To-do</TaskPaneHeader>
+        {loading ? (
+          <StyledSpinner />
+        ) : todoTasks.length === 0 ? (
+          <PaneSubtitle>
+            You&apos;ve completed all your tasks for today.{' '}
+            <TaskButtonLink
+              onClick={() => {
+                setTaskModalOpen(true);
+              }}
+            >
+              Create a new task?
+            </TaskButtonLink>
+          </PaneSubtitle>
+        ) : (
+          <>
+            <TasksWrapper>
+              {todoTasks.map((task) => (
+                <Task
+                  key={task.id}
+                  task={task}
+                  setTaskModalOpen={setTaskModalOpen}
+                  setTaskToUpdate={setTaskToUpdate}
+                  progressBar
+                />
+              ))}
+            </TasksWrapper>
+            <TaskButtonLink
+              onClick={() => {
+                setTaskModalOpen(true);
+              }}
+            >
+              Create a new task?
+            </TaskButtonLink>
+          </>
+        )}
+      </TaskPaneSection>
+      <TaskPaneCompleteSection>
+        <TaskPaneHeader>Completed</TaskPaneHeader>
+        {loading ? (
+          <StyledSpinner />
+        ) : doneTasks.length === 0 ? (
+          <PaneSubtitle>There are no completed tasks to display</PaneSubtitle>
+        ) : (
+          <>
+            <TasksWrapper>
+              {doneTasks.map((task) => (
+                <Task
+                  key={task.id}
+                  task={task}
+                  setTaskModalOpen={setTaskModalOpen}
+                  setTaskToUpdate={setTaskToUpdate}
+                />
+              ))}
+            </TasksWrapper>
+          </>
+        )}
+      </TaskPaneCompleteSection>
+    </>
   );
 };
 

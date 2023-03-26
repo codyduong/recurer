@@ -15,6 +15,16 @@ declare module '*CreateTask.graphql' {
   export default CreateTaskDocument;
 }
 
+declare module '*DeleteTask.graphql' {
+  import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+  import { DeleteTaskMutation, DeleteTaskMutationVariables } from 'graphql-gen/types';
+  const DeleteTaskDocument: DocumentNode<
+    DeleteTaskMutation,
+    DeleteTaskMutationVariables
+  >;
+  export default DeleteTaskDocument;
+}
+
 declare module '*UpdateTask.graphql' {
   import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
   import { UpdateTaskMutation, UpdateTaskMutationVariables } from 'graphql-gen/types';
@@ -25,16 +35,6 @@ declare module '*UpdateTask.graphql' {
   export default UpdateTaskDocument;
 }
 
-declare module '*GetTasks.graphql' {
-  import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
-  import { GetTasksQuery, GetTasksQueryVariables } from 'graphql-gen/types';
-  const GetTasksDocument: DocumentNode<
-    GetTasksQuery,
-    GetTasksQueryVariables
-  >;
-  export default GetTasksDocument;
-}
-
 declare module '*GetDashboard.graphql' {
   import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
   import { GetDashboardQuery, GetDashboardQueryVariables } from 'graphql-gen/types';
@@ -43,6 +43,16 @@ declare module '*GetDashboard.graphql' {
     GetDashboardQueryVariables
   >;
   export default GetDashboardDocument;
+}
+
+declare module '*GetTasks.graphql' {
+  import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
+  import { GetTasksQuery, GetTasksQueryVariables } from 'graphql-gen/types';
+  const GetTasksDocument: DocumentNode<
+    GetTasksQuery,
+    GetTasksQueryVariables
+  >;
+  export default GetTasksDocument;
 }
 
 declare module '*LoginUser.graphql' {

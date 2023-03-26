@@ -6,11 +6,21 @@ import styled from 'styled-components';
 import CREATE_TASK from './CreateTask.graphql';
 import UPDATE_TASK from './UpdateTask.graphql';
 import DELETE_TASK from './DeleteTask.graphql';
-import GET_TASKS from '../Panes/GetTasks.graphql';
+import GET_TASKS from 'packages/pages/Dashboard/GetTasks.graphql';
 import Button from 'packages/components/Button';
 import { GetTasksQuery } from 'graphql-gen/types';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs from 'dayjs';
 
 const InputGroup = styled.div`
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  max-width: 420px;
+  gap: 16px;
+`;
+
+const InputGroupDatetime = styled.div`
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
@@ -36,12 +46,14 @@ const StyledForm = styled(Form)`
 export interface CreateTaskModalProps {
   open: boolean;
   onClose: () => void;
+  onCloseAnimationComplete?: () => void;
   taskToUpdate: GetTasksQuery['tasks'][number] | undefined;
 }
 
 const CreateTaskModal = ({
   open,
   onClose,
+  onCloseAnimationComplete,
   taskToUpdate: task,
 }: CreateTaskModalProps): JSX.Element => {
   const refetchQueries = [{ query: GET_TASKS }];
@@ -60,7 +72,12 @@ const CreateTaskModal = ({
   };
 
   return (
-    <Modal open={open} onClose={onClose} size="large">
+    <Modal
+      open={open}
+      onClose={onClose}
+      onCloseAnimationComplete={onCloseAnimationComplete}
+      size="large"
+    >
       <Modal.Header>
         {task?.id ? 'Updating task' : 'Creating new task'}
       </Modal.Header>
@@ -70,7 +87,10 @@ const CreateTaskModal = ({
             title: task?.title ?? '',
             description: task?.content ?? '',
             points: task?.points ?? 0,
+            pointsCompleted: task?.pointsCompleted ?? 0,
             recurring: false,
+            dateStart: '',
+            dateEnd: '',
           }}
           onSubmit={(values, { setSubmitting }) => {
             if (!task?.id) {
@@ -80,6 +100,9 @@ const CreateTaskModal = ({
                   content: values.description,
                   // recurringChron: values.recurring,
                   points: values.points,
+                  pointsCompleted: values.pointsCompleted,
+                  dateEnd: values.dateEnd,
+                  complete: values.points === values.pointsCompleted
                 },
               });
             } else {
@@ -89,6 +112,8 @@ const CreateTaskModal = ({
                   title: values.title,
                   content: values.description,
                   points: values.points,
+                  pointsCompleted: values.pointsCompleted,
+                  complete: values.points === values.pointsCompleted
                 },
               });
             }
@@ -103,7 +128,19 @@ const CreateTaskModal = ({
                 <Field name="title" id="task-title" as="input" />
               </InputGroup>
               <InputGroup>
-                <label htmlFor="task-points">Task Points</label>
+                <label htmlFor="task-points-completed">
+                  Task Points Completed
+                </label>
+                <Field
+                  name="pointsCompleted"
+                  id="task-points-completed"
+                  as="input"
+                  type="number"
+                  min={0}
+                />
+              </InputGroup>
+              <InputGroup>
+                <label htmlFor="task-points">Task Points Total</label>
                 <Field
                   name="points"
                   id="task-points"
@@ -112,6 +149,18 @@ const CreateTaskModal = ({
                   min={0}
                 />
               </InputGroup>
+              <InputGroupDatetime>
+                <label htmlFor="task-points">Task date/time</label>
+                <DateTimePicker
+                  defaultValue={task?.dateEnd && dayjs(task.dateEnd)}
+                  onChange={(value: dayjs.Dayjs | null) => {
+                    p.setFieldValue(
+                      'dateEnd',
+                      value ? value.toISOString() : ''
+                    );
+                  }}
+                />
+              </InputGroupDatetime>
               <InputGroup>
                 <Toggle
                   disabled

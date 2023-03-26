@@ -1,8 +1,16 @@
-import { nonNull, objectType, stringArg, intArg } from 'nexus';
+import { task } from '@prisma/client';
+import { nonNull, objectType, stringArg, intArg, booleanArg } from 'nexus';
 import { Adapter } from '../adapter';
 import { Context } from '../context';
 import { rules } from '../rules';
 import { getUserFromHeaders } from '../utils';
+
+/**
+ * For fields that are added later but no migration is done:
+ */
+const safeifyTask = (task: task): task => {
+  return { ...task, complete: task.complete ?? false };
+};
 
 export default Adapter<'task'>({
   schema: [
@@ -14,7 +22,10 @@ export default Adapter<'task'>({
         t.nonNull.string('content');
         t.nonNull.string('title');
         t.nonNull.int('points');
-        t.nonNull.field('deadline', { type: 'DateTime' });
+        t.nonNull.int('pointsCompleted');
+        t.nonNull.field('dateStart', { type: 'DateTime' });
+        t.nonNull.field('dateEnd', { type: 'DateTime' });
+        t.nonNull.boolean('complete');
       },
     }),
   ],
@@ -30,7 +41,7 @@ export default Adapter<'task'>({
               authorId: user.id,
             },
           });
-          return tasks;
+          return tasks.map((task) => safeifyTask(task));
         },
       });
     },
@@ -41,11 +52,22 @@ export default Adapter<'task'>({
           title: nonNull(stringArg()),
           content: nonNull(stringArg()),
           points: intArg(),
-          deadline: stringArg(),
+          pointsCompleted: intArg(),
+          dateStart: stringArg(),
+          dateEnd: nonNull(stringArg()),
+          complete: booleanArg(),
         },
         resolve: async (
           _parent,
-          { title, content, points, deadline },
+          {
+            title,
+            content,
+            points,
+            pointsCompleted,
+            dateStart,
+            dateEnd,
+            complete,
+          },
           context: Context,
         ) => {
           const user = await getUserFromHeaders(context);
@@ -55,13 +77,14 @@ export default Adapter<'task'>({
               authorId: user.id,
               content: content,
               points: points ?? 0,
+              pointsCompleted: pointsCompleted ?? 0,
               recurring: false,
-              deadline: deadline
-                ? new Date(deadline).toISOString()
-                : new Date(0),
+              dateStart: dateStart ?? dateEnd ?? undefined,
+              dateEnd: dateEnd,
+              complete: complete ?? false,
             },
           });
-          return task;
+          return safeifyTask(task);
         },
       });
       t.nonNull.field('updateTask', {
@@ -72,25 +95,56 @@ export default Adapter<'task'>({
           content: stringArg(),
           points: intArg(),
           pointsCompleted: intArg(),
-          deadline: stringArg(),
+          dateStart: stringArg(),
+          dateEnd: stringArg(),
+          complete: booleanArg(),
         },
         resolve: async (
           _parent,
-          { id, title, content, points, deadline, pointsCompleted },
+          {
+            id,
+            title,
+            content,
+            points,
+            pointsCompleted,
+            dateStart,
+            dateEnd,
+            complete,
+          },
           context: Context,
         ) => {
-          return context.prisma.task.update({
+          const task = await context.prisma.task.update({
             data: {
               title: title ?? undefined,
               content: content ?? undefined,
               points: points ?? undefined,
-              deadline: deadline ?? undefined,
               pointsCompleted: pointsCompleted ?? undefined,
+              dateStart: dateStart ?? undefined,
+              dateEnd: dateEnd ?? undefined,
+              complete: complete ?? undefined,
             },
             where: {
               id: id,
             },
           });
+          return safeifyTask(task);
+        },
+      });
+      t.nonNull.field('completeTask', {
+        type: 'task',
+        args: {
+          id: nonNull(stringArg()),
+        },
+        resolve: async (_parent, { id }, context: Context) => {
+          const task = await context.prisma.task.update({
+            data: {
+              complete: true,
+            },
+            where: {
+              id: id,
+            },
+          });
+          return safeifyTask(task);
         },
       });
       t.nonNull.field('deleteTask', {
@@ -99,11 +153,12 @@ export default Adapter<'task'>({
           id: nonNull(stringArg()),
         },
         resolve: async (_parent, { id }, context: Context) => {
-          return context.prisma.task.delete({
+          const task = await context.prisma.task.delete({
             where: {
               id: id,
             },
           });
+          return safeifyTask(task);
         },
       });
     },

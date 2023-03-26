@@ -29,8 +29,10 @@ model task {
   title           String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  deadline        DateTime
+  dateStart       DateTime
+  dateEnd         DateTime
   points          Int      @default(0)
   pointsCompleted Int      @default(0)
   recurring       Boolean  @default(false)
+  complete        Boolean  @default(false)
 }

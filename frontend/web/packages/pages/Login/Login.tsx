@@ -6,6 +6,10 @@ import { Main } from 'packages/pages/Page';
 import styled from 'styled-components';
 import LOGIN_USER from './LoginUser.graphql';
 
+const StyledMain = styled(Main)`
+  background-color: unset;
+`;
+
 const StyledSection = styled.section`
   display: flex;
   flex-flow: column nowrap;
@@ -68,7 +72,7 @@ const Login = (): JSX.Element => {
   const { setToken, setUser } = useAuth();
 
   return (
-    <Main>
+    <StyledMain>
       <StyledSection>
         <Title>Recurer</Title>
         <Subtitle>
@@ -111,7 +115,7 @@ const Login = (): JSX.Element => {
           </StyledForm>
         </Formik>
       </StyledSection>
-    </Main>
+    </StyledMain>
   );
 };
 

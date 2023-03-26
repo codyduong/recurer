@@ -3,7 +3,7 @@ import { SpinnerFlow } from 'packages/SpinkitLoadable';
 import styled from 'styled-components';
 
 const WelcomePaneSection = styled(PaneSection)`
-  background-color: #dfd4be;
+  background-color: #f7ebd3;
   box-shadow: 4px 4px 8px 0px rgba(221, 159, 24, 0.2);
 `;
 
@@ -35,8 +35,9 @@ const WelcomePane = ({ username }: WelcomePaneProps): JSX.Element => {
         Welcome back {username ? username + '!' : <StyledSpinner />}
       </WelcomePaneHeader>
       <PaneSubtitle>
+        {/* TODO actually store and fetch from mongoDB */}
         You&apos;ve completed <b>50%</b> of your tasks for this week. You have
-        accumulated <b>192</b> points.
+        accumulated <b>192</b> points overall.
       </PaneSubtitle>
     </WelcomePaneSection>
   );
