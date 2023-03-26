@@ -1,4 +1,5 @@
 import { task } from '@prisma/client';
+import { and, not } from 'graphql-shield';
 import { nonNull, objectType, stringArg, intArg, booleanArg } from 'nexus';
 import { Adapter } from '../adapter';
 import { Context } from '../context';
@@ -166,8 +167,10 @@ export default Adapter<'task'>({
   permissions: {
     Query: {},
     Mutation: {
-      updateTask: rules.taskOwner,
-      deleteTask: rules.taskOwner,
+      createTask: not(rules.demo),
+      updateTask: and(not(rules.demo), rules.taskOwner),
+      deleteTask: and(not(rules.demo), rules.taskOwner),
+      completeTask: and(not(rules.demo), rules.taskOwner),
     },
   },
 });

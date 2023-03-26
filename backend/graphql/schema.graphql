@@ -34,10 +34,12 @@ type UserAuthPayload {
 
 type UserRoles {
   admin: Boolean!
+  demo: Boolean!
 }
 
 input UserRolesArg {
   admin: Boolean!
+  demo: Boolean!
 }
 
 type task {

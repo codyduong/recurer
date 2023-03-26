@@ -9,6 +9,7 @@ datasource db {
 
 type UserRoles {
   admin Boolean
+  demo  Boolean
 }
 
 model user {

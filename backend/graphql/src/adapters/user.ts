@@ -12,12 +12,14 @@ export default Adapter<'user'>({
       name: 'UserRolesArg',
       definition(t) {
         t.nonNull.boolean('admin');
+        t.nonNull.boolean('demo');
       },
     }),
     objectType({
       name: 'UserRoles',
       definition(t) {
         t.nonNull.boolean('admin');
+        t.nonNull.boolean('demo');
       },
     }),
     objectType({
@@ -92,6 +94,7 @@ export default Adapter<'user'>({
           }
           const defaultRoles = {
             admin: false,
+            demo: false,
           };
           const user = await context.prisma.user.create({
             data: {

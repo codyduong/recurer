@@ -89,7 +89,6 @@ const Login = (): JSX.Element => {
               },
             });
             if (data) {
-              console.log(data);
               setToken(data.loginUser?.token ?? null);
               setUser(data.loginUser?.user ?? null);
             }
@@ -100,19 +99,42 @@ const Login = (): JSX.Element => {
           //   console.log(values);
           // }}
         >
-          <StyledForm>
-            <label htmlFor={'email'}>email</label>
-            <Field
-              id="email"
-              name="email"
-              as="input"
-              placeholder="abc@gmail.com"
-            />
-            <label htmlFor={'password'}>password</label>
-            <Field id="password" name="password" as="input" type="password" />
-            <LoginButton type="submit">Login</LoginButton>
-            <DemoButton type="submit">Demo Account</DemoButton>
-          </StyledForm>
+          {(p) => (
+            <StyledForm>
+              <label htmlFor={'email'}>email</label>
+              <Field
+                id="email"
+                name="email"
+                as="input"
+                placeholder="abc@gmail.com"
+              />
+              <label htmlFor={'password'}>password</label>
+              <Field id="password" name="password" as="input" type="password" />
+              <LoginButton type="submit">Login</LoginButton>
+              <DemoButton
+                type="button"
+                onClick={async () => {
+                  p.setSubmitting(true);
+                  alert(
+                    'Demo account can not actually create or modify tasks, only view the ones already input by admins.'
+                  );
+                  const { data } = await login({
+                    variables: {
+                      email: 'demo',
+                      password: 'demo123',
+                    },
+                  });
+                  if (data) {
+                    setToken(data.loginUser?.token ?? null);
+                    setUser(data.loginUser?.user ?? null);
+                  }
+                  p.setSubmitting(false);
+                }}
+              >
+                Demo Account
+              </DemoButton>
+            </StyledForm>
+          )}
         </Formik>
       </StyledSection>
     </StyledMain>
