@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "baseUrl": "src",
+    "paths": {
+      "graphql-gen/*": ["../graphql-gen/*"],
+      "packages/*": ["../packages/*"],
+      "src/*": ["*"]
+    },
+    "types": [
+      "@types/webpack-env"
+    ],
+    "typeRoots": ["./src/types"]
+  },
+  "include": [
+    "src",
+    "packages",
+    "graphql-gen"
+  ]
+}

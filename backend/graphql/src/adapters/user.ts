@@ -70,7 +70,7 @@ export default Adapter<'user'>({
         ) => {
           const hashedPassword = await hash(password, 10);
           // only another admin can set roles by default
-          if (!isAdmin(context) && roles) {
+          if (roles && !isAdmin(context)) {
             context.res
               .status(403)
               .send('Settings userRoles requires admin permissions');

@@ -1,0 +1,16 @@
+{
+  "presets": [
+    "razzle/babel"
+  ],
+  "plugins": [
+    [
+      "babel-plugin-styled-components",
+      {
+        "ssr": true,
+        "displayName": false
+      }
+    ],
+    "@loadable/babel-plugin",
+    "@babel/plugin-transform-react-jsx"
+  ]
+}

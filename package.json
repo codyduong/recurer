@@ -1,10 +1,9 @@
 {
-  "name": "recur-project",
+  "name": "recurii-project",
   "author": "Cody Duong <contact@codyduong.dev> (https://codyduong.dev/)",
   "private": true,
   "scripts": {
-    "ci": "yarn install --frozen-lockfile",
-    "changeset": "changeset"
+    "ci": "yarn install --frozen-lockfile"
   },
   "bugs": {
     "url": "https://github.com/codyduong/recur/issues"

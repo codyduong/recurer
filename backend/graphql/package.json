@@ -1,7 +1,7 @@
 {
-  "name": "recur-graphql",
+  "name": "recurii-graphql",
   "version": "0.0.0",
-  "description": "graphql server for recur",
+  "description": "graphql server for recurii",
   "author": "Cody Duong <contact@codyduong.dev> (https://codyduong.dev/)",
   "private": true,
   "main": "dist/functions.js",
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@apollo/server": "^4.5.0",
+    "@fontsource/atkinson-hyperlegible": "^4.5.11",
     "@prisma/client": "4.11.0",
     "bcryptjs": "2.4.3",
     "dotenv": "^16.0.3",
@@ -36,6 +37,7 @@
     "@types/bcryptjs": "2.4.2",
     "@types/jsonwebtoken": "9.0.1",
     "@types/node": "^18.15.9",
+    "@types/webpack-env": "^1.18.0",
     "cross-env": "^7.0.3",
     "eslint": "^8.36.0",
     "eslint-config-codyduong": "https://github.com/codyduong/eslint-config-codyduong.git#semver:v1.0.2",

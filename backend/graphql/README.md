@@ -1,3 +1,7 @@
+# recurii-graphql
+
+Bootstrapped from [`prisma-examples`](https://github.com/prisma/prisma-examples/tree/latest/typescript/graphql-auth) 
+
 # GraphQL Server with Authentication & Permissions
 
 This example shows how to implement a **GraphQL server with TypeScript** with the following stack:
